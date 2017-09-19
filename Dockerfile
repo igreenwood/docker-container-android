@@ -1,6 +1,10 @@
 FROM ubuntu:16.04
- 
-MAINTAINER issei.aoki <i.greenwood.dev@gmail.com>
+
+# Upgrade software
+RUN apt-get update -y && apt-get upgrade -y
+
+# Install Git
+RUN apt-get install -y git
  
 # Install sudo
 RUN apt-get update \
@@ -17,16 +21,22 @@ RUN apt-get install -y software-properties-common curl \
     && apt-get install -y openjdk-8-jdk
  
 # Download Android SDK
+ENV ANDROID_SDK_REVISION r24.4.1
 RUN sudo apt-get -y install wget \
   && cd /usr/local \
-  && wget http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz \
-  && tar zxvf android-sdk_r24.4.1-linux.tgz \
-  && rm -rf /usr/local/android-sdk_r24.4.1-linux.tgz
+  && wget http://dl.google.com/android/android-sdk_$ANDROID_SDK_REVISION-linux.tgz \
+  && tar zxvf android-sdk_$ANDROID_SDK_REVISION-linux.tgz \
+  && rm -rf /usr/local/android-sdk_$ANDROID_SDK_REVISION-linux.tgz
  
-# Environment variables
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH
+
+RUN echo y | android update sdk --no-ui --force --all --filter "tools"
+RUN echo y | android update sdk --no-ui --force --all --filter "platform-tools"
+RUN echo y | android update sdk --no-ui --force --all --filter "build-tools-23.0.3,build-tools-24.0.0,build-tools-24.0.2,android-23,android-24"
+RUN echo y | android update sdk --no-ui --force --all --filter "android-23,android-22,android-21"
+RUN echo y | android update sdk --no-ui --force --all --filter "extra-android-m2repository,extra-google-m2repository"
  
 # Licenses
 Add android-sdk-license $ANDROID_HOME/licenses/
