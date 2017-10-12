@@ -13,7 +13,11 @@ RUN apt-get update \
  
 # Install 32bit lib
 RUN sudo apt-get -y install lib32stdc++6 lib32z1
- 
+
+# Install unzip
+RUN apt-get update \
+  && sudo apt-get install unzip
+
 # Install Java8
 RUN apt-get install -y software-properties-common curl \
     && add-apt-repository -y ppa:openjdk-r/ppa \
@@ -21,7 +25,7 @@ RUN apt-get install -y software-properties-common curl \
     && apt-get install -y openjdk-8-jdk
  
 # Download Android SDK
-ENV ANDROID_SDK_REVISION r26.0.2
+ENV ANDROID_SDK_REVISION r24.4.1
 RUN sudo apt-get -y install wget \
   && cd /usr/local \
   && wget http://dl.google.com/android/android-sdk_$ANDROID_SDK_REVISION-linux.tgz \
@@ -30,7 +34,7 @@ RUN sudo apt-get -y install wget \
  
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV ANDROID_HOME /usr/local/android-sdk-linux
-ENV PATH $ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH
+ENV PATH $ANDROID_HOME/tools:$PATH
 
 RUN echo y | android update sdk --no-ui --force --all --filter "tools"
 RUN echo y | android update sdk --no-ui --force --all --filter "platform-tools"
