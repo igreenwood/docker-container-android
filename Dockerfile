@@ -21,7 +21,7 @@ RUN apt-get install -y software-properties-common curl \
     && apt-get install -y openjdk-8-jdk
  
 # Download Android SDK
-ENV ANDROID_SDK_REVISION r24.4.1
+ENV ANDROID_SDK_REVISION r26.0.2
 RUN sudo apt-get -y install wget \
   && cd /usr/local \
   && wget http://dl.google.com/android/android-sdk_$ANDROID_SDK_REVISION-linux.tgz \
@@ -34,8 +34,8 @@ ENV PATH $ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$PATH
 
 RUN echo y | android update sdk --no-ui --force --all --filter "tools"
 RUN echo y | android update sdk --no-ui --force --all --filter "platform-tools"
-RUN echo y | android update sdk --no-ui --force --all --filter "build-tools-23.0.3,build-tools-24.0.0,build-tools-24.0.2,android-23,android-24"
-RUN echo y | android update sdk --no-ui --force --all --filter "android-23,android-22,android-21"
+RUN echo y | android update sdk --no-ui --force --all --filter "build-tools-23.0.3,build-tools-24.0.0,build-tools-24.0.1,build-tools-24.0.2,build-tools-24.0.3,build-tools-25,build-tools-25.0.1,build-tools-25.0.2,build-tools-25.0.3,build-tools-26,build-tools-26.0.1,build-tools-26.0.2"
+RUN echo y | android update sdk --no-ui --force --all --filter "android-26,android-25,android-24,android-23,android-22,android-21"
 RUN echo y | android update sdk --no-ui --force --all --filter "extra-android-m2repository,extra-google-m2repository"
  
 # Licenses
